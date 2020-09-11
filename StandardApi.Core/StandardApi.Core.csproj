@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="User\Commands\SaveUser\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StandardApi.CrossCutting\StandardApi.CrossCutting.csproj" />
+    <ProjectReference Include="..\StandardApi.Data\StandardApi.Data.csproj" />
+  </ItemGroup>
+
+</Project>
