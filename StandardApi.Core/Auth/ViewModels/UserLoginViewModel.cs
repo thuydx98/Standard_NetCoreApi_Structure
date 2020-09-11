@@ -19,6 +19,6 @@ namespace StandardApi.Business.Auth.ViewModels
         public string LastName { get; set; }
         public string FullName { get { return (FirstName + " " + MiddleName + " " + LastName).Replace("  ", " "); } }
         public string ShortName { get { return (FirstName + " " + LastName).Replace("  ", " "); } }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

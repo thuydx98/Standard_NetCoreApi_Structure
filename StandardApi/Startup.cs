@@ -1,7 +1,6 @@
 using System;
 using System.Text;
 using DryIoc;
-using DryIoc.Microsoft.DependencyInjection;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authorization;
@@ -15,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using StandardApi.BackgroundJob.Jobs.OneTime;
 using StandardApi.Common.Mail;
 using StandardApi.Constants;
 using StandardApi.Data.Services;

@@ -35,7 +35,7 @@ namespace StandardApi.Core.Auth.Queries.GetUserByAccount
                     MiddleName = n.MiddleName,
                     UserName = n.Username,
                     PasswordHash = n.Password,
-                    CreatedDate = n.CreateDate,
+                    CreatedAt = n.CreatedAt,
                     //Enabled = n.Status.IsBlockAccess == true ? false : true,
                     //Reason = MessageConstant.REASON_CANNOT_LOGIN + n.Status.Status.ToLower()
                 })

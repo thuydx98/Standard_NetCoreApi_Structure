@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StandardApi.BackgroundJob\StandardApi.BackgroundJob.csproj" />
-    <ProjectReference Include="..\StandardApi.Business\StandardApi.Core.csproj" />
+    <ProjectReference Include="..\StandardApi.Core\StandardApi.Core.csproj" />
     <ProjectReference Include="..\StandardApi.CrossCutting\StandardApi.CrossCutting.csproj" />
     <ProjectReference Include="..\StandardApi.Data\StandardApi.Data.csproj" />
   </ItemGroup>

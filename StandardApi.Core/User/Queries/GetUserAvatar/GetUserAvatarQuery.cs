@@ -64,10 +64,10 @@ namespace StandardApi.Core.User.Queries.GetUserAvatar
                 {
                     Id = n.Id,
                     UserId = n.UserId,
-                    Filename = n.Filename,
+                    Filename = n.FileName,
                     FileSize = n.FileSize,
                     FileType = n.FileType,
-                    Content = n.Picture
+                    Content = n.FileContent
                 })
                 .LastOrDefaultAsync();
 
@@ -78,7 +78,7 @@ namespace StandardApi.Core.User.Queries.GetUserAvatar
                     .Select(n => new UserAvatarViewModel()
                     {
                         UserId = 0,
-                        Filename = n.Filename,
+                        Filename = n.FileName,
                         FileSize = n.FileSize,
                         FileType = n.FileType,
                         Content = n.FileContent

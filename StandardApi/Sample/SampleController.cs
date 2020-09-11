@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using StandardApi.BackgroundJob.Jobs.OneTime;
-using StandardApi.BackgroundJob.ScheduleJobs.RecurringJob;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using StandardApi.BackgroundJob.Jobs.Sample;
+using StandardApi.BackgroundJob.RecurringJobs.Sample;
+using StandardApi.BackgroundJob.ScheduleJobs.Sample;
 using StandardApi.CrossCutting.BackgroundWorker;
 using StandardApi.Data.Entities.BackgroundWorker;
 using System;
@@ -22,15 +24,17 @@ namespace StandardApi.Sample
             _backgroundJobWrapper = backgroundJobWrapper;
         }
 
-        [HttpPost]
+        [HttpGet]
+        [AllowAnonymous]
         [Route("create-jobs")]
         public IActionResult CreateBackgroundJobs()
         {
-            // Queue Job and execute now
-            _backgroundJobWrapper.Enqueue<IOneTimeJob>(job => job.ExecuteAsync("Executing one time schedule job now"));
+            // Queue Job not concurrency
+            _backgroundJobWrapper.Enqueue<ISampleJob>(job => job.ExecuteAsync("Input value of Queue Job 1"));
+            _backgroundJobWrapper.Enqueue<ISampleJob>(job => job.ExecuteAsync("Input value of Queue Job 2"));
 
-            // Queue Job and execute in custom time (it will return Job ID)
-            _backgroundJobWrapper.Schedule<IOneTimeJob>(job => job.ExecuteAsync("Executing one time schedule job after 2 minute"), DateTime.Now.AddMinutes(2));
+            // Schedule Job
+            _backgroundJobWrapper.Schedule<ISampleScheduleJob>(job => job.ExecuteAsync("Input value of Schedule Job"), DateTime.Now.AddMinutes(2));
 
             // Recurring Job
             HangfireServiceEntity service = new HangfireServiceEntity()
@@ -39,9 +43,9 @@ namespace StandardApi.Sample
                 Name = "ID - Run every minute",
                 Cron = "* * * * *"
             };
-            _recurringJobWrapper.AddOrUpdate<IRecurringJob>(service.Name, job => job.ExecuteAsync(" input value"), service.Cron, TimeZoneInfo.Local);
+            _recurringJobWrapper.AddOrUpdate<ISampleRecurringJob>(service.Name, job => job.ExecuteAsync("Input value of Recurring Job"), service.Cron, TimeZoneInfo.Local);
 
-            return new ObjectResult("Done");
+            return new ObjectResult(new { success = true });
         }
     }
 }

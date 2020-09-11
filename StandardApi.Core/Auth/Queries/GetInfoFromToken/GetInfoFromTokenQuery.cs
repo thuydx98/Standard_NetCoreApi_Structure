@@ -35,7 +35,7 @@ namespace StandardApi.Core.Auth.Queries.GetInfoFromToken
                     Email = n.Email,
                     PhoneNumber = n.PhoneNumber,
                     Gender = n.Gender,
-                    CreatedDate = n.CreateDate
+                    CreatedDate = n.CreatedAt
                 })
                 .SingleOrDefaultAsync();
 
