@@ -1,0 +1,1 @@
+# standard_netcoreapi_structure
