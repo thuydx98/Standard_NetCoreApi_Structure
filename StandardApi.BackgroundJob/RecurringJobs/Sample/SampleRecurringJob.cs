@@ -7,7 +7,7 @@ namespace StandardApi.BackgroundJob.RecurringJobs.Sample
     {
         public void ExecuteAsync(string input)
         {
-            Console.WriteLine(string.Format("[RECURRING JOB] Executing at {0} and sleep 10s with input value: {1} ", new DateTime(), input));
+            Console.WriteLine(string.Format("[RECURRING JOB] Executing at {0} and sleep 10s with input value: {1} ", DateTime.Now, input));
             Thread.Sleep(10 * 1000);
         }
     }

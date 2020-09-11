@@ -1,5 +1,5 @@
 ﻿using StandardApi.Common.Enums;
-using StandardApi.Common.Logger.Logs;
+using StandardApi.Common.Logger.LogTypes;
 
 namespace StandardApi.Common.Logger
 {
