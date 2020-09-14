@@ -36,7 +36,7 @@ namespace StandardApi
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName.ToLower()}.json", optional: true)
                 .AddEnvironmentVariables();
 
             _env = env;
