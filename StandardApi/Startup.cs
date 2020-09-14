@@ -69,17 +69,6 @@ namespace StandardApi
             services.AddResponseCaching();
 
             services.AddCors();
-            //services.AddCors(options =>
-            //{
-            //    options.AddDefaultPolicy(
-            //        builder =>
-            //        {
-            //            builder.WithOrigins(_configuration.GetAllowOrigins())
-            //                .AllowAnyHeader()
-            //                .AllowAnyMethod();
-            //        });
-            //});
-
             services.AddControllers(option =>
             {
                 option.EnableEndpointRouting = false;
@@ -149,11 +138,16 @@ namespace StandardApi
             }
 
             app.UseRouting();
+            app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseResponseCaching();
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(policies =>
+            {
+                policies.WithOrigins(_configuration.GetAllowOrigins())
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -162,7 +156,7 @@ namespace StandardApi
                 c.RoutePrefix = string.Empty;
             });
 
-            app.UseHangfireDashboard("/hangfire");
+            app.UseHangfireDashboard("/jobs");
 
             app.UseEndpoints(endpoints =>
             {

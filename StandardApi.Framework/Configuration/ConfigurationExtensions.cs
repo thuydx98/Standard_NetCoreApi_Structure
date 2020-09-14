@@ -13,12 +13,12 @@ namespace StandardApi.Framework.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            if (enviroment == "Development")
+            if (enviroment.ToLower() == "production")
             {
-                return configuration["ConnectionStrings:DevConnection"];
+                return configuration["ConnectionStrings:DbConnection"];
             }
 
-            return configuration["ConnectionStrings:DbConnection"];
+            return configuration["ConnectionStrings:DevConnection"];
         }
 
         public static string GetHangfireConnectionString(this IConfiguration configuration, string enviroment)
@@ -28,12 +28,12 @@ namespace StandardApi.Framework.Configuration
                 throw new ArgumentNullException(nameof(configuration));
             }
 
-            if (enviroment == "Development")
+            if (enviroment.ToLower() == "production")
             {
-                return configuration["ConnectionStrings:HangfireDevConnection"];
+                return configuration["ConnectionStrings:HangfireConnection"];
             }
 
-            return configuration["ConnectionStrings:HangfireConnection"];
+            return configuration["ConnectionStrings:HangfireDevConnection"];
         }
 
         public static string[] GetAllowOrigins(this IConfiguration configuration)
@@ -55,6 +55,7 @@ namespace StandardApi.Framework.Configuration
 
             return configuration["Auth:LoginPath"];
         }
+
         public static string GetLogoutPath(this IConfiguration configuration)
         {
             if (configuration == null)

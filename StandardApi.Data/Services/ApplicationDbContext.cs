@@ -508,6 +508,13 @@ namespace StandardApi.Data.Services
                 entity.Property(e => e.StatusId)
                     .HasColumnType("int");
 
+                entity.Property(e => e.RecoveryCode)
+                    .HasColumnType("char(5)")
+                    .HasMaxLength(5);
+
+                entity.Property(e => e.RecoveryRequestTime)
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.Deleted)
                     .HasColumnType("bit")
                     .HasDefaultValueSql("0");

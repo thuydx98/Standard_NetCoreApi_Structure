@@ -27,6 +27,8 @@ namespace StandardApi.Data.Entities.User
         public string Username { get; set; }
         public string Password { get; set; }
         public int? RoleId { get; set; }
+        public string RecoveryCode { get; set; }
+        public DateTime? RecoveryRequestTime { get; set; }
         public int? StatusId { get; set; }
         public bool? Deleted { get; set; }
         public DateTime? CreatedAt { get; set; }

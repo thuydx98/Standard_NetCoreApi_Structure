@@ -2,7 +2,7 @@
 {
     public class CommandResultError
     {
-        public string Description { get; set; }
+        public string Message { get; set; }
         public int Code { get; set; }
     }
 }

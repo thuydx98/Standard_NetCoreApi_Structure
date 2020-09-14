@@ -1,7 +1,5 @@
 ﻿using StandardApi.Common.Extentions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -56,19 +54,13 @@ namespace StandardApi.Common.Mail
                 // Send mail
                 using (var client = new SmtpClient())
                 {
-                    // https://github.com/jstedfast/MailKit/blob/master/FAQ.md#InvalidSslCertificate
-                    // The remote certificate is invalid according to the validation procedure
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
                     await client.ConnectAsync(_mailServerSetting.Host, _mailServerSetting.Port, SecureSocketOptions.Auto);
-                    // _mail Server Setting . UseSSL
 
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
-
                     await client.AuthenticateAsync(_mailServerSetting.UserName, _mailServerSetting.Password);
                     await client.SendAsync(mailMessage.ToMimeMessage());
-                    // https://support.google.com/a/answer/176600?hl=en
-                    // smtp-replay.kms-technology.com limit 10000 per day
+
                     client.Disconnect(true);
                 }
             }
@@ -90,7 +82,7 @@ namespace StandardApi.Common.Mail
         {
             if (!_mailServerSetting.EmailTest.IsEmpty())
             {
-                return "[HRM Email Test] - " + subject;
+                return "[StandardApi Email Test] - " + subject;
             }
 
             return subject;

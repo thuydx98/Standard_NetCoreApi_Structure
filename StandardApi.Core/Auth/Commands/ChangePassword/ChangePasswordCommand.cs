@@ -38,7 +38,7 @@ namespace StandardApi.Core.Auth.Commands.ChangePassword
                     return CommandResult.Failed(new CommandResultError()
                     {
                         Code = (int)HttpStatusCode.BadRequest,
-                        Description = HttpMessage.NotFound
+                        Message = HttpMessage.NotFound
                     });
                 }
                 else
@@ -53,7 +53,7 @@ namespace StandardApi.Core.Auth.Commands.ChangePassword
                         return CommandResult.Failed(new CommandResultError()
                         {
                             Code = (int)HttpStatusCode.NotFound,
-                            Description = PASSWORD_NOT_MATCH
+                            Message = PASSWORD_NOT_MATCH
                         });
                     }
                 }
@@ -65,7 +65,7 @@ namespace StandardApi.Core.Auth.Commands.ChangePassword
                 return CommandResult.Failed(new CommandResultError()
                 {
                     Code = (int)HttpStatusCode.InternalServerError,
-                    Description = HttpMessage.InternalServerError
+                    Message = HttpMessage.InternalServerError
                 });
             }
         }
@@ -81,7 +81,7 @@ namespace StandardApi.Core.Auth.Commands.ChangePassword
                 return CommandResult.Failed(new CommandResultError()
                 {
                     Code = (int)HttpStatusCode.BadRequest,
-                    Description = HttpMessage.SomeDataEmptyOrInvalid
+                    Message = HttpMessage.SomeDataEmptyOrInvalid
                 });
             }
 

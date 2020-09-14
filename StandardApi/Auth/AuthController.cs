@@ -7,6 +7,7 @@ using StandardApi.Business.Auth.ViewModels;
 using StandardApi.Constants;
 using StandardApi.Constants.Message;
 using StandardApi.Core.Auth.Commands.ChangePassword;
+using StandardApi.Core.Auth.Commands.ForgotPassword;
 using StandardApi.Core.Auth.Queries.GetInfoFromToken;
 using StandardApi.Core.Auth.Queries.GetUserByAccount;
 using StandardApi.Core.Auth.ViewModels;
@@ -27,17 +28,20 @@ namespace StandardApi.Auth
         private readonly IGetUserByAccountQuery _getUserByAccountQuery;
         private readonly IGetInfoFromTokenQuery _getInfoFromTokenQuery;
         private readonly IChangePasswordCommand _changePasswordCommand;
+        private readonly IForgotPasswordCommand _forgotPasswordCommand;
 
         public AuthController(
             IOptionsSnapshot<JwtOptions> jwtConfiguration,
             IGetUserByAccountQuery getUserByAccountQuery,
             IGetInfoFromTokenQuery getInfoFromTokenQuery,
-            IChangePasswordCommand changePasswordCommand)
+            IChangePasswordCommand changePasswordCommand,
+            IForgotPasswordCommand forgotPasswordCommand)
         {
             _jwtConfiguration = jwtConfiguration;
             _getUserByAccountQuery = getUserByAccountQuery;
             _getInfoFromTokenQuery = getInfoFromTokenQuery;
             _changePasswordCommand = changePasswordCommand;
+            _forgotPasswordCommand = forgotPasswordCommand;
         }
 
         [HttpPost]
@@ -74,6 +78,7 @@ namespace StandardApi.Auth
             return StatusCode((int)HttpStatusCode.Unauthorized, new { message = Message.WRONG_USERNAME_PASSWORD });
         }
 
+        #region un-use
         //[HttpPost]
         //[Route("customer/login")]
         //[AllowAnonymous]
@@ -218,6 +223,17 @@ namespace StandardApi.Auth
         //        Description = MessageConstant.SYSTEM_ERROR
         //    }));
         //}
+        #endregion
+
+        [HttpPost]
+        [Route("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] JObject jsonObject)
+        {
+            var username = (string)jsonObject.SelectToken("username");
+            var result = await _forgotPasswordCommand.ExecuteAsync(username);
+
+            return StatusCode(result.GetStatusCode(), result.GetData());
+        }
 
         [HttpPut]
         [Route("change-password")]
@@ -227,11 +243,14 @@ namespace StandardApi.Auth
             return StatusCode(result.GetStatusCode(), result.GetData());
         }
 
-        [HttpPost("get-token-information")]
+        [HttpPost("me")]
         [AllowAnonymous]
-        public async Task<UserTokenInfoModel> GetCustomerInfoFromAccessTokenAsync([FromBody] JObject jsonObject)
+        public async Task<IActionResult> GetInfoFromTokenAsync([FromBody] JObject jsonObject)
         {
-            return await _getInfoFromTokenQuery.ExecuteAsync(jsonObject["accessToken"].ToString());
+            var accessToken = (string)jsonObject.SelectToken("accessToken");
+            var result = await _getInfoFromTokenQuery.ExecuteAsync(accessToken);
+
+            return new ObjectResult(result);
         }
     }
 }

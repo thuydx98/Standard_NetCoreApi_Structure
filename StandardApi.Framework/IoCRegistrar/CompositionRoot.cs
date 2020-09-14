@@ -16,6 +16,9 @@ using StandardApi.BackgroundJob.ScheduleJobs.Sample;
 using StandardApi.BackgroundJob.RecurringJobs.Sample;
 using StandardApi.Core.User.Commands.UploadUserAvatar;
 using StandardApi.Core.User.Queries.GetUserAvatar;
+using StandardApi.Common.Extentions;
+using StandardApi.Core.Auth.Commands.ForgotPassword;
+using StandardApi.BackgroundJob.Jobs.Mails.SendRecoveryCode;
 
 namespace StandardApi.Framework.IoCRegistrar
 {
@@ -46,12 +49,17 @@ namespace StandardApi.Framework.IoCRegistrar
             }), Reuse.Scoped);
             #endregion
 
+            #region Common
+            registrator.Register<RandomGenerator>(Reuse.Singleton);
+            #endregion
+
             #region Background Worker
             registrator.Register<IBackgroundJobWrapper, BackgroundJobWrapper>(Reuse.Scoped);
             registrator.Register<IRecurringJobWrapper, RecurringJobWrapper>(Reuse.Scoped);
 
             // Jobs
             registrator.Register<ISampleJob, SampleJob>(Reuse.Scoped);
+            registrator.Register<ISendRecoveryCode, SendRecoveryCode>(Reuse.Scoped);
 
             // Schedule Jobs
             registrator.Register<ISampleScheduleJob, SampleScheduleJob>(Reuse.Scoped);
@@ -70,6 +78,7 @@ namespace StandardApi.Framework.IoCRegistrar
             registrator.Register<IGetRoleByUserIdQuery, GetRoleByUserIdQuery>(Reuse.Scoped);
             registrator.Register<IGetUserByAccountQuery, GetUserByAccountQuery>(Reuse.Scoped);
             registrator.Register<IChangePasswordCommand, ChangePasswordCommand>(Reuse.Scoped);
+            registrator.Register<IForgotPasswordCommand, ForgotPasswordCommand>(Reuse.Scoped);
             #endregion
 
             #region User

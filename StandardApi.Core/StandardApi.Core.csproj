@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StandardApi.BackgroundJob\StandardApi.BackgroundJob.csproj" />
     <ProjectReference Include="..\StandardApi.CrossCutting\StandardApi.CrossCutting.csproj" />
     <ProjectReference Include="..\StandardApi.Data\StandardApi.Data.csproj" />
   </ItemGroup>
