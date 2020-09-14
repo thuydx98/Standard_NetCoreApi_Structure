@@ -83,7 +83,7 @@ namespace StandardApi
             });
 
             services.AddSingleton(ctx => _configuration);
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetDbConnectionString(_env?.EnvironmentName)));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(_configuration.GetDbConnectionString()));
 
             services.AddAuthentication(options => options.DefaultScheme = "StandardApi")
                 .AddCookie("StandardApi.CookieSchema", options =>
@@ -107,7 +107,7 @@ namespace StandardApi
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
-                .UseSqlServerStorage(_configuration.GetHangfireConnectionString(_env?.EnvironmentName), new SqlServerStorageOptions
+                .UseSqlServerStorage(_configuration.GetHangfireConnectionString(), new SqlServerStorageOptions
                 {
                     CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
                     SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
