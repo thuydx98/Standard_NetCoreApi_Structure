@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.Net.Http.Headers;
-using StandardApi.Common.Extentions;
 using StandardApi.Common.Logger;
 using StandardApi.Core.Auth.Queries.GetRoleByUserId;
-using StandardApi.Core.Auth.Queries.GetInfoFromToken;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using StandardApi.Core.Auth.Queries.GetCurrentUser;
 
 namespace StandardApi.Framework.Authentication
 {
@@ -24,8 +22,6 @@ namespace StandardApi.Framework.Authentication
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var header = Request.Headers;
-            var token = ((string)header[HeaderNames.Authorization])?.Substring("Bearer ".Length).Trim();
             var action = Request.Method;
             string controller = string.Empty;
             string api = string.Empty;
@@ -43,39 +39,25 @@ namespace StandardApi.Framework.Authentication
                 return AuthenticateResult.Fail("URL not valid: " + Request.Path.Value);
             }
 
-            AuthenticationTicket ticket = null;
-            if (token.IsEmpty())
-            {
-                if (Request.Cookies["accessToken"] != null)
-                {
-                    token = Request.Cookies["accessToken"];
-                    ticket = await CreateTicketAsync(token, action, controller, api);
-                }
-            }
-            else
-            {
-                ticket = await CreateTicketAsync(token, action, controller, api);
-            }
+            AuthenticationTicket ticket = await CreateTicketAsync(action, controller, api);
 
             if (ticket == null)
             {
                 return AuthenticateResult.Fail("Authentication failed because the access token was invalid.");
             }
 
-            //await Request.HttpContext.SignInAsync(ticket.AuthenticationScheme, ticket.Principal)
-
             await AuthenticationHttpContextExtensions.SignInAsync(Request.HttpContext, ticket.AuthenticationScheme, ticket.Principal);
 
             return AuthenticateResult.Success(ticket);
         }
 
-        private async Task<AuthenticationTicket> CreateTicketAsync(string token, string action, string controller, string api)
+        private async Task<AuthenticationTicket> CreateTicketAsync(string action, string controller, string api)
         {
             string userName = string.Empty;
             try
             {
-                var getUserFromToken = Request.HttpContext.RequestServices.GetService(typeof(IGetInfoFromTokenQuery)) as IGetInfoFromTokenQuery;
-                var user = await getUserFromToken.ExecuteAsync(token);
+                var getCurrentUser = Request.HttpContext.RequestServices.GetService(typeof(IGetCurrentUserQuery)) as IGetCurrentUserQuery;
+                var user = await getCurrentUser.ExecuteAsync();
                 if (user == null)
                 {
                     return null;

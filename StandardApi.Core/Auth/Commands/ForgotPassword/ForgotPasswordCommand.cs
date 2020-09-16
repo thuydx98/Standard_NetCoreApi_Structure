@@ -45,6 +45,15 @@ namespace StandardApi.Core.Auth.Commands.ForgotPassword
                 .Where(n => n.Username == username || n.Email == username || n.PhoneNumber == username)
                 .FirstOrDefaultAsync();
 
+            if(user == null)
+            {
+                return CommandResult.Failed(new CommandResultError()
+                {
+                    Code = (int)HttpStatusCode.NotFound,
+                    Message = HttpMessage.NotFound
+                });
+            }
+
             user.RecoveryCode = recoveryCode;
             user.RecoveryRequestTime = DateTime.UtcNow;
             await _userRepository.UpdateAsync(user);

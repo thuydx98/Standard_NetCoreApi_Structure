@@ -20,15 +20,15 @@ namespace StandardApi.Framework.Authentication
                 {
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Sub, account.UserId.ToString()),
-                    new Claim("Authenticated", "True"),
-                    new Claim("user_name", account.UserName ?? SystemConstant.EMPTY_USER_NAME),
-                    new Claim("user_id", account.UserId.ToString()),
-                    new Claim("user_email", account.Email ?? SystemConstant.EMPTY_USER_EMAIL),
-                    new Claim("user_phone_number", account.PhoneNumber ?? SystemConstant.EMPTY_USER_PHONE_NUMBER),
-                    new Claim("last_name", account.LastName),
-                    new Claim("middle_name", account.MiddleName ?? SystemConstant.EMPTY_USER_MIDDLE_NAME),
-                    new Claim("first_name", account.FirstName),
-                    new Claim("user_code", account.UserCode ?? SystemConstant.EMPTY_USER_CODE),
+                    new Claim(ClaimType.AUTHENTICATED, "True"),
+                    new Claim(ClaimType.USERNAME, account.UserName ?? SystemConstant.EMPTY_USER_NAME),
+                    new Claim(ClaimType.USER_ID, account.UserId.ToString()),
+                    new Claim(ClaimType.USER_EMAIL, account.Email ?? SystemConstant.EMPTY_USER_EMAIL),
+                    new Claim(ClaimType.USER_PHONE_NUMBER, account.PhoneNumber ?? SystemConstant.EMPTY_USER_PHONE_NUMBER),
+                    new Claim(ClaimType.LAST_NAME, account.LastName),
+                    new Claim(ClaimType.MIDDLE_NAME, account.MiddleName ?? SystemConstant.EMPTY_USER_MIDDLE_NAME),
+                    new Claim(ClaimType.FIRST_NAME, account.FirstName),
+                    new Claim(ClaimType.USER_CODE, account.UserCode ?? SystemConstant.EMPTY_USER_CODE),
 
                     new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64)
                 };

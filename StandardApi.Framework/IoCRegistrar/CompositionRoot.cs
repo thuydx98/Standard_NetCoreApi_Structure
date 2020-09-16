@@ -19,6 +19,7 @@ using StandardApi.Core.User.Queries.GetUserAvatar;
 using StandardApi.Common.Extentions;
 using StandardApi.Core.Auth.Commands.ForgotPassword;
 using StandardApi.BackgroundJob.Jobs.Mails.SendRecoveryCode;
+using StandardApi.Core.Auth.Queries.GetCurrentUser;
 
 namespace StandardApi.Framework.IoCRegistrar
 {
@@ -74,6 +75,7 @@ namespace StandardApi.Framework.IoCRegistrar
             #region StandardApi.Core
 
             #region Auth
+            registrator.Register<IGetCurrentUserQuery, GetCurrentUserQuery>(Reuse.Scoped);
             registrator.Register<IGetInfoFromTokenQuery, GetInfoFromTokenQuery>(Reuse.Scoped);
             registrator.Register<IGetRoleByUserIdQuery, GetRoleByUserIdQuery>(Reuse.Scoped);
             registrator.Register<IGetUserByAccountQuery, GetUserByAccountQuery>(Reuse.Scoped);

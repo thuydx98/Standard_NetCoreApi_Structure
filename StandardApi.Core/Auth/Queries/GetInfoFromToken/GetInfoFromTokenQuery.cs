@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StandardApi.Constants.System;
 using StandardApi.Core.Auth.ViewModels;
 using StandardApi.Data.Entities.User;
 using StandardApi.Data.Services;
@@ -19,10 +20,9 @@ namespace StandardApi.Core.Auth.Queries.GetInfoFromToken
 
         public async Task<UserTokenInfoModel> ExecuteAsync(string accessToken)
         {
-            accessToken = accessToken?.Replace("Bearer", "").Trim();
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadJwtToken(accessToken);
-            var userId = jwtToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
+            var userId = jwtToken.Claims.First(claim => claim.Type == ClaimType.USER_ID).Value;
             var user = await _userRepository.TableNoTracking
                 .Where(n => n.Id.ToString() == userId)
                 .Select(n => new UserTokenInfoModel()
